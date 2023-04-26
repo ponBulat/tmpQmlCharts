@@ -1,57 +1,48 @@
 import QtQuick
 import QtCharts
 
-
 ChartView {
-    title: qsTr( "shape" )
+    title: qsTr( "Заголовок диаграммы" )
 
     width: 400
     height: 300
     theme: ChartView.ChartThemeBlueIcy
     antialiasing: true
 
+    localizeNumbers: true
+    locale: Qt.locale("ru_RU")
+
+//    dropShadowEnabled: true
+
 //     отключим легенды диаграммы
 //    legend.visible: false
 
     AreaSeries {
 
-        name: "AreaSeries name"
-
-//        axisY: ValueAxis {
-//            min:0
-//            max: 100
-//            lineVisible: false
-//            labelsColor: "white"
-//            labelFormat: "%d"
-//        }
+        name: "Название графика"
 
         axisX: ValueAxis {
+            id:xAxis
             min:0
-            max: 9
-//            gridVisible: false
-//            labelsVisible: false
-//            lineVisible: false
-//            shadesVisible: false
-//            titleVisible: false
-            tickCount: 10
-
+            max: 10
         }
 
-        upperSeries: LineSeries {
-            id: lineSeries
-
-//            pointLabelsVisible: true
-
-            XYPoint { x: 0; y: 0 }
-            XYPoint { x: 1; y: 0 }
-            XYPoint { x: 2; y: 0 }
-            XYPoint { x: 3; y: 0 }
-            XYPoint { x: 4; y: 0 }
-            XYPoint { x: 5; y: 0 }
-            XYPoint { x: 6; y: 0 }
-            XYPoint { x: 7; y: 0 }
-            XYPoint { x: 8; y: 0 }
-            XYPoint { x: 9; y: 0 }
+        axisY: ValueAxis {
+            min:0
+            max: 100
         }
+
+        upperSeries: LineSeries { id: lineSeries }
+    }
+
+    function setValue( x, y ) {
+        lineSeries.insert(x, x, y)
+    }
+
+    function setMaxX( maxX ) {
+        if( maxX < 0 || maxX > 30 )
+            console.log( "unacceptable value number: ", maxX )
+        else
+            xAxis.max = maxX
     }
 }
